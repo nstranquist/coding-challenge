@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 
 interface IProps {
@@ -16,10 +17,25 @@ const AddCard: React.FC<IProps> = ({
   }
 
   return (
-    <div>
-      <a onClick={(e) => handleAddCard(e)}>+ Add Card</a>
-    </div>
+    <AddCardWrapper>
+      <CardButton onClick={(e) => handleAddCard(e)} >
+        <span style={{marginRight: '3px'}}>+</span>
+        Add Card</CardButton>
+    </AddCardWrapper>
   )
 }
 
 export default AddCard
+
+
+const AddCardWrapper = styled.div`
+  margin: 5px;
+  margin-top: 12px;
+  `
+  const CardButton = styled.a`
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+  padding: 8px;
+  display: inline-block;
+`

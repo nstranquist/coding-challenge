@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 interface IProps {
   title: string
@@ -10,10 +11,30 @@ const ColumnHeader: React.FC<IProps> = ({
   color
 }) => {
   return (
-    <header style={{padding:'10px', backgroundColor: color, textAlign:'center', lineHeight:'1.5'}}>
-      <h2 style={{margin:0,padding:0}}>{title}</h2>
-    </header>
+    <HeaderWrapper color={color}>
+      <TitleWrapper>
+        {title}</TitleWrapper>
+    </HeaderWrapper>
   )
 }
 
 export default ColumnHeader
+
+
+const HeaderWrapper = styled.header`
+  padding: 10px;
+  color: white;
+  font-family: sans-serif;
+  background-color: ${(props: any) => props.color}
+  text-align: center;
+  line-height: 1.5;
+  line-height: 30px;
+  max-height: 30px;
+  `
+  const TitleWrapper = styled.h2`
+  font-weight: 500;
+  margin: 0;
+  line-height: 30px;
+  font-size: 20px;
+  padding: 0;
+`
