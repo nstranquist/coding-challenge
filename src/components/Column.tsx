@@ -1,83 +1,60 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import ColumnHeader from './ColumnHeader'
 import Card from './Card'
 import AddCard from './AddCard'
+import uuidv4 from 'uuid'
 
-interface IProps {
+export interface Card {
+  id: string
+  text: string
+}
+export interface Column {
+  id: string
   title: string
   color: string
+  cards: Card[]
   isLeft?: boolean
   isRight?: boolean
-  colNumber: number
-  sendCard(card: any, forward: boolean): void
 }
 
-const startingCards = [
-  {
-    id: 0,
-    text: 'first card'
-  },
-  {
-    id: 1,
-    text: 'second card'
-  }
-]
+interface IProps {
+  column: Column
+  updateColumn(id: string, colId: string, left?:boolean, right?:boolean): void
+  addToColumn(newCard: Card, colId: string): void
+}
 
 const Column: React.FC<IProps> = ({
-  title,
-  color,
-  isLeft,
-  isRight,
-  colNumber,
-  sendCard,
+  column,
+  addToColumn,
+  updateColumn,
 }) => {
-  // map through later
-  const [cards, setCards] = useState(startingCards)
+  // could try to use state and set state here
 
-  //useEffect(() => {
-//
-  //})
   const handleClick = (text: string) => {
     let newCard = {
-      id: cards.length,
+      id: uuidv4(),
       text
     }
     console.log('new card', newCard)
-    let newCards = [...cards]
-    newCards.push(newCard)
-    setCards(newCards)
+    addToColumn(newCard, column.id)
   }
 
-  const handleBack = (id: number) => {
-    // could check if already left-most
-    // push to previous column
-    // 1 get card from array, remove it
-    let cardIndex = cards.findIndex(item => item.id === id)
-    let card = cards[cardIndex]
-    let newCards = [...cards]
-    setCards(newCards.slice(0, cardIndex).concat(newCards.slice(cardIndex+1, cards.length)))
-    // send it to other column with next
-    sendCard(card, false)
+  const handleBack = (id: string) => {
+    updateColumn(id, column.id, true)
   }
 
-  const handleNext = (id: number) => {
-    // could check if already right-most
-    let cardIndex = cards.findIndex(item => item.id === id)
-    let card = cards[cardIndex]
-    let newCards = [...cards]
-    setCards(newCards.slice(0, cardIndex).concat(newCards.slice(cardIndex+1, cards.length)))
-    // send it to other column with next
-    sendCard(card, true)
+  const handleNext = (id: string) => {
+    updateColumn(id, column.id, false)
   }
 
   return (
     <CardWrapper style={{width:'25%'}} className={``}>
-      <ColumnHeader color={color} title={title} />
+      <ColumnHeader color={column.color} title={column.title} />
       <div>
-        {cards.map(cardItem =>
+        {column.cards.map(cardItem =>
           <Card handleBack={handleBack} handleNext={handleNext}
-            isLeft isRight card={cardItem} />)}
+            isLeft={column.isLeft} isRight={column.isRight} card={cardItem} />)}
       </div>
       <AddCard handleClick={handleClick} />
     </CardWrapper>

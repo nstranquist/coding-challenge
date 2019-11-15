@@ -4,8 +4,8 @@ interface IProps {
   card: any
   isLeft?: boolean
   isRight?: boolean
-  handleBack(id: number): void
-  handleNext(id: number): void
+  handleBack(id: string): void
+  handleNext(id: string): void
 }
 
 const Card: React.FC<IProps> = ({
@@ -21,11 +21,11 @@ const Card: React.FC<IProps> = ({
 
   return (
     <div style={{display:'flex', justifyContent:'space-between', background:'white', padding:'20px', textAlign:'center'}}>
-      {isLeft! && (
+      {!isLeft && (
         <button onClick={() => handleBack(id)}>Back</button>
       )}
       <div style={{flex:'1'}}>{text}</div>
-      {isRight! && (
+      {!isRight && (
         <button onClick={() => handleNext(id)}>Next</button>
       )}
     </div>
