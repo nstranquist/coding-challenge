@@ -19,15 +19,13 @@ const Card: React.FC<IProps> = ({
   handleNext
 }) => {
 
-
-
   return (
-    <div style={{display:'flex', justifyContent:'space-between', background:'white', padding:'20px'}}>
-      {!isLeft && (
+    <div style={{display:'flex', justifyContent:'space-between', background:'white', padding:'20px', textAlign:'center'}}>
+      {isLeft! && (
         <button onClick={() => handleBack(id)}>Back</button>
       )}
-      <div>{text}</div>
-      {!isRight && (
+      <div style={{flex:'1'}}>{text}</div>
+      {isRight! && (
         <button onClick={() => handleNext(id)}>Next</button>
       )}
     </div>

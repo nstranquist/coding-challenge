@@ -10,7 +10,7 @@ interface IProps {
   isLeft?: boolean
   isRight?: boolean
   colNumber: number
-  sendCard(card: any): void
+  sendCard(card: any, forward: boolean): void
 }
 
 const startingCards = [
@@ -30,7 +30,7 @@ const Column: React.FC<IProps> = ({
   isLeft,
   isRight,
   colNumber,
-  sendCard
+  sendCard,
 }) => {
   // map through later
   const [cards, setCards] = useState(startingCards)
@@ -53,20 +53,26 @@ const Column: React.FC<IProps> = ({
     // could check if already left-most
     // push to previous column
     // 1 get card from array, remove it
-    let card = cards[id]
+    let cardIndex = cards.findIndex(item => item.id === id)
+    let card = cards[cardIndex]
     let newCards = [...cards]
-    setCards(newCards.splice(0, id-1).concat(newCards.splice(id+1, cards.length)))
+    setCards(newCards.slice(0, cardIndex).concat(newCards.slice(cardIndex+1, cards.length)))
     // send it to other column with next
-    sendCard(card)
+    sendCard(card, false)
   }
 
   const handleNext = (id: number) => {
     // could check if already right-most
-
+    let cardIndex = cards.findIndex(item => item.id === id)
+    let card = cards[cardIndex]
+    let newCards = [...cards]
+    setCards(newCards.slice(0, cardIndex).concat(newCards.slice(cardIndex+1, cards.length)))
+    // send it to other column with next
+    sendCard(card, true)
   }
 
   return (
-    <div style={{width:'25%'}} className={``}>
+    <CardWrapper style={{width:'25%'}} className={``}>
       <ColumnHeader color={color} title={title} />
       <div>
         {cards.map(cardItem =>
@@ -74,13 +80,13 @@ const Column: React.FC<IProps> = ({
             isLeft isRight card={cardItem} />)}
       </div>
       <AddCard handleClick={handleClick} />
-    </div>
+    </CardWrapper>
   )
 }
 
 export default Column
 
-const HeaderWrapper = styled.div`
+const CardWrapper = styled.div`
   flex: 1;
   margin-right: 25px;
 `

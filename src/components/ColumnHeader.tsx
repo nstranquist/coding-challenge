@@ -10,8 +10,8 @@ const ColumnHeader: React.FC<IProps> = ({
   color
 }) => {
   return (
-    <header style={{height:'30px',backgroundColor: color}}>
-      <h2>{title}</h2>
+    <header style={{padding:'10px', backgroundColor: color, textAlign:'center', lineHeight:'1.5'}}>
+      <h2 style={{margin:0,padding:0}}>{title}</h2>
     </header>
   )
 }

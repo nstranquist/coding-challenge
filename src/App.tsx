@@ -7,8 +7,14 @@ const App: React.FC = () => {
 
   //const [columns, setColumns] = useState([])
 
-  const sendCard = (card: any) => {
-    // work
+  const sendCard = (card: any, forward:boolean) => {
+    if(forward) {
+      // send forward
+      
+    } else {
+      // send backward
+
+    }
   }
 
   return (
